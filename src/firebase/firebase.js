@@ -87,15 +87,15 @@ export { firebase, database as default };
 //         console.log('Save failed: ', e);
 //     });
 
-    // database.ref()
-    // .once('value')
-    // .then((snapshot) => {
-    //     const val = snapshot.val();
-    //     console.log(val);
-    // })
-    // .catch((e) => {
-    //     console.log('Unable to get data: ', e);
-    // });
+// database.ref()
+// .once('value')
+// .then((snapshot) => {
+//     const val = snapshot.val();
+//     console.log(val);
+// })
+// .catch((e) => {
+//     console.log('Unable to get data: ', e);
+// });
 
 
 // database.ref().update({
