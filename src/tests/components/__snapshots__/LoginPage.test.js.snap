@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test rendering of the login page 1`] = `
+<div>
+  <input
+    placeholder="Username"
+    type="text"
+  />
+  <input
+    placeholder="Password"
+    type="text"
+  />
+  <button>
+    Login
+  </button>
+</div>
+`;

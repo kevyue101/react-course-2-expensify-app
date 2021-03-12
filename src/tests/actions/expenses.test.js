@@ -13,6 +13,8 @@ import {
 import expenses from '../../fixtures/expenses';
 import database from '../../firebase/firebase';
 
+const uid = "testuser";
+const defaultAuthState = { auth: { uid }};
 const createMockStore = configureMockStore([thunk]);
 
 beforeEach((done) => {
@@ -21,7 +23,7 @@ beforeEach((done) => {
         expensesData[id] = { description, note, amount, createdAt };
     });
     // forEach is asynchronous so you need "done" to wait for it
-    database.ref('expenses').set(expensesData).then(() => done());
+    database.ref(`users/${uid}/expenses`).set(expensesData).then(() => done());
 });
 
 test('should setup remove expense action object', () => {
@@ -50,7 +52,7 @@ test('should setup add expense action object when parameters defined', () =>{
 });
 
 test('should add expense to database', (done) =>{
-    const store = createMockStore({});
+    const store = createMockStore(defaultAuthState);
     const expenseData = {
         description: 'Mouse',
         amount: 250,
@@ -67,7 +69,7 @@ test('should add expense to database', (done) =>{
                 ...expenseData
             }
         });
-        return database.ref(`expenses/${actions[0].expense.id}`).once('value');
+        return database.ref(`users/${uid}/expenses/${actions[0].expense.id}`).once('value');
     }).then((snapshot) => {
         expect(snapshot.val()).toEqual(expenseData);
         done();
@@ -75,7 +77,7 @@ test('should add expense to database', (done) =>{
 });
 
 test('should setup add expense action object when parameters not defined', (done) =>{
-    const store = createMockStore({});
+    const store = createMockStore(defaultAuthState);
     const emptyExpense = {
         description: '', 
         note: '', 
@@ -92,7 +94,7 @@ test('should setup add expense action object when parameters not defined', (done
                 ...emptyExpense
             }
         });
-        return database.ref(`expenses/${actions[0].expense.id}`).once('value');
+        return database.ref(`users/${uid}/expenses/${actions[0].expense.id}`).once('value');
     }).then((snapshot) => {
         expect(snapshot.val()).toEqual(emptyExpense);
         done();
@@ -108,7 +110,7 @@ test('should set up expense action object with data', () => {
 });
 
 test('should fetch expenses from server', (done) => {
-    const store = createMockStore({});
+    const store = createMockStore(defaultAuthState);
     store.dispatch(startSetExpenses()).then(() => {
         const actions = store.getActions();
         expect(actions[0]).toEqual({
@@ -120,7 +122,7 @@ test('should fetch expenses from server', (done) => {
 });
 
 test('should remove expenses from server', (done) => {
-    const store = createMockStore({});
+    const store = createMockStore(defaultAuthState);
     const id = expenses[0].id;
     
     store.dispatch(startRemoveExpense({id})).then((snapshot) => {
@@ -137,7 +139,7 @@ test('should remove expenses from server', (done) => {
 });
 
 test('should edit expense from server', (done) => {
-    const store = createMockStore({});
+    const store = createMockStore(defaultAuthState);
     const id = expenses[1].id;
     const note = "hello there";
     const updates = { note }
@@ -149,7 +151,7 @@ test('should edit expense from server', (done) => {
             id,
             updates
         });
-        return database.ref(`expenses/${id}`).once('value');
+        return database.ref(`users/${uid}/expenses/${id}`).once('value');
     }).then((snapshot) => {
         expect(snapshot.val().note).toEqual(note);
         done();
