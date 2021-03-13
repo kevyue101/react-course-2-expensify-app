@@ -1,17 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test rendering of the login page 1`] = `
-<div>
-  <input
-    placeholder="Username"
-    type="text"
-  />
-  <input
-    placeholder="Password"
-    type="text"
-  />
-  <button>
-    Login
-  </button>
+<div
+  className="box-layout"
+>
+  <div
+    className="box-layout__box"
+  >
+    <h1
+      className="box-layout__title"
+    >
+      Expensify
+    </h1>
+    <p>
+      Track your expenses
+    </p>
+    <button
+      className="button"
+    >
+      Login with Google
+    </button>
+  </div>
 </div>
 `;
